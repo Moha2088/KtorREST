@@ -1,1 +1,3 @@
-# MongoREST
+# KtorREST
+
+Ktor REST API practice
