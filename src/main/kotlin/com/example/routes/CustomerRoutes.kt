@@ -19,7 +19,7 @@ fun Route.customerRouting() {
         }
 
         get("{id?}") {
-            var id = call.parameters["id"] ?: return@get call.respondText(
+            val id = call.parameters["id"] ?: return@get call.respondText(
                 "Missing id",
                 status = HttpStatusCode.BadRequest
             )
