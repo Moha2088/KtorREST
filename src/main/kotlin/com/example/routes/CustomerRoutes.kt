@@ -16,6 +16,10 @@ fun Route.customerRouting() {
             if (customerStorage.isNotEmpty()) {
                 call.respond(customerStorage)
             }
+
+            else {
+                call.respondText("No customers available! Please create a customer", status = HttpStatusCode.OK)
+            }
         }
 
         get("{id?}") {

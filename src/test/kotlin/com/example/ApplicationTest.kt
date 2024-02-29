@@ -13,7 +13,7 @@ class OrderRouteTests {
         val response = client.get("/order/28-02-2024")
 
         assertEquals(
-            """{"number":"28-02-2024","contents":[{"item":"Sandwich","amount":6,"price":20.00},{"item":"MeatBall Sandwich","amount":4,"price":28.50},{"item":"Triple CheeseBurger","amount":7,"price":30.00},{"item":"Krusty Burger","amount":10,"price":25.00}]}""",
+            """{"number":"28-02-2024","contents":[{"item":"Sandwich","amount":6,"price":20.0},{"item":"MeatBall Sandwich","amount":4,"price":28.5},{"item":"Triple CheeseBurger","amount":7,"price":30.0},{"item":"Krusty Burger","amount":10,"price":25.0}]}""",
             response.bodyAsText()
             )
 
