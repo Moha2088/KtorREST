@@ -2,6 +2,21 @@ val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
 
+ktor{
+    docker{
+        jreVersion.set(JavaVersion.VERSION_17)
+        localImageName.set("ktor-rest-image")
+
+        externalRegistry.set(
+            io.ktor.plugin.features.DockerImageRegistry.dockerHub(
+                appName = provider { "ktor-app" },
+                username = providers.environmentVariable("DOCKER_NAME"),
+                password = providers.environmentVariable("DOCKER_PASSWORD")
+            )
+        )
+    }
+}
+
 plugins {
     kotlin("jvm") version "1.9.22"
     id("io.ktor.plugin") version "2.3.8"
