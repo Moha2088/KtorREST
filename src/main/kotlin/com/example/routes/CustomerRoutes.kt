@@ -1,24 +1,23 @@
 package com.example.routes
 
+import com.example.Repositories.CustomerRepository
 import com.example.models.Customer
 import com.example.models.customerStorage
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
-
 import io.ktor.server.routing.*
 
 
-fun Route.customerRouting() {
+fun Route.customerRouting(customerRepo: CustomerRepository = CustomerRepository()) {
+
     route("/customer") {
         get {
-            if (customerStorage.isNotEmpty()) {
-                call.respond(customerStorage)
-            }
-
-            else {
-                call.respondText("No customers available! Please create a customer", status = HttpStatusCode.OK)
+            if (customerRepo.getAll().isNotEmpty()) {
+                call.respond(customerRepo.getAll())
+            } else {
+                call.respondText("No customers were found!", status = HttpStatusCode.OK)
             }
         }
 
@@ -28,28 +27,31 @@ fun Route.customerRouting() {
                 status = HttpStatusCode.BadRequest
             )
 
-            val customer = customerStorage.find { it.id == id } ?: return@get call.respondText(
-                "No customer with id: $id", status = HttpStatusCode.NotFound
-            )
-
+            val customer = customerRepo.getCustomer(id)
             call.respond(customer)
         }
 
         post {
             val customer = call.receive<Customer>()
-            customerStorage.add(customer)
-            call.respondText("Customer stored succesfully", status = HttpStatusCode.Created)
+            customerRepo.addCustomer(customer)
+            call.respondText("Customer: ${customer.firstName} stored succesfully", status = HttpStatusCode.Created)
         }
 
         delete("{id?}") {
             val id = call.parameters["id"] ?: return@delete call.respond(HttpStatusCode.BadRequest)
+            customerRepo.deleteCustomer(id)
+                .also {
+                    call.respondText("Customer with id: $id has been deleted!", status = HttpStatusCode.OK)
+                }
+        }
 
-            if (customerStorage.removeIf { it.id == id }) {
-                call.respondText("Customer removed succesfully!", status = HttpStatusCode.Accepted)
-            }
-
-            else {
-                call.respondText("Customer not found", status = HttpStatusCode.NotFound)
+        delete("all") {
+            customerRepo.deleteAll().also {
+                if (it == 0) {
+                    call.respondText("No customers to delete!", status = HttpStatusCode.OK)
+                } else {
+                    call.respondText("All customers have been deleted!", status = HttpStatusCode.OK)
+                }
             }
         }
     }
