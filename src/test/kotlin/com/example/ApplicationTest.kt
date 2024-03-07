@@ -19,4 +19,10 @@ class OrderRouteTests {
 
         assertEquals(response.status, HttpStatusCode.OK)
     }
+
+    @Test
+    fun getAllReturnsListOfOrders() {
+        // Arrange
+
+    }
 }

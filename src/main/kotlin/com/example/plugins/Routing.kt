@@ -8,8 +8,6 @@ import com.example.routes.*
 fun Application.configureRouting() {
     routing {
         customerRouting()
-        listCollection()
-        getOrderRoute()
-        totalizeOrderRoute()
+        orderRouting()
     }
 }

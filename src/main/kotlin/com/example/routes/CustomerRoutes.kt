@@ -2,17 +2,17 @@ package com.example.routes
 
 import com.example.Repositories.CustomerRepository
 import com.example.models.Customer
-import com.example.models.customerStorage
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import java.security.MessageDigest
 
 
 fun Route.customerRouting(customerRepo: CustomerRepository = CustomerRepository()) {
-
     route("/customer") {
+
         get {
             if (customerRepo.getAll().isNotEmpty()) {
                 call.respond(customerRepo.getAll())
@@ -34,7 +34,7 @@ fun Route.customerRouting(customerRepo: CustomerRepository = CustomerRepository(
         post {
             val customer = call.receive<Customer>()
             customerRepo.addCustomer(customer)
-            call.respondText("Customer: ${customer.firstName} stored succesfully", status = HttpStatusCode.Created)
+            call.respondText("Customer: ${customer.firstName} stored succesfully!", status = HttpStatusCode.Created)
         }
 
         delete("{id?}") {
