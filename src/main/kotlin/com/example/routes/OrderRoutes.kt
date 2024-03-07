@@ -16,6 +16,8 @@ private val logger = LoggerFactory.getLogger(OrderRoutes::class.java)
 
 fun Route.orderRouting(orderRepository: OrderRepository = OrderRepository()) {
     route("/order") {
+
+
         post {
             val order = call.receive<Order>()
             orderRepository.addOrderItem(order)
@@ -24,7 +26,6 @@ fun Route.orderRouting(orderRepository: OrderRepository = OrderRepository()) {
 
         get {
             if (orderRepository.getAll().isNotEmpty()) {
-                orderRepository.getAll()
                 call.respond(orderRepository.getAll())
             } else {
                 call.respondText("No orders were found!", status = HttpStatusCode.OK)

@@ -20,7 +20,7 @@ class CustomerRepository {
 
 
     suspend fun addCustomer(customer: Customer) {
-        val insert = collection.insertOne(customer)
+        collection.insertOne(customer)
     }
 
     suspend fun getCustomer(id:String) :MutableList<Customer> {
