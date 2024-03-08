@@ -13,9 +13,10 @@ val config = HoconApplicationConfig(ConfigFactory.load())
 val secret = config.property("jwt.secret").getString()
 val issuer = config.property("jwt.issuer").getString()
 val audience = config.property("jwt.audience").getString()
-val realm = config.property("jwt.realm").getString()
+var myRealm = config.property("jwt.realm").getString()
 
 fun Application.module() {
     configureSerialization()
+    configureSecurity(secret = secret, issuer = issuer, audience = audience, myRealm = myRealm)
     configureRouting(secret = secret, issuer = issuer, audience = audience)
 }

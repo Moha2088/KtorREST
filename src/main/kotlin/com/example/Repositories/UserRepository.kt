@@ -28,8 +28,8 @@ class UserRepository{
         return userList
     }
 
-    suspend fun getUser(id:Int) : MutableList<User> {
-        val filter = Filters.eq(User::id.name, id)
+    suspend fun getUser(name:String) : MutableList<User> {
+        val filter = Filters.eq(User::userName.name)
         val user:MutableList<User> = mutableListOf()
         collection.find(filter).collect{
           user.add(it)
@@ -38,8 +38,8 @@ class UserRepository{
         return user
     }
 
-    suspend fun deleteUser(id:Int) : Int {
-        val userToDelete = Filters.eq(User::id.name, id)
+    suspend fun deleteUser(name:String) : Int {
+        val userToDelete = Filters.eq(User::userName.name, name)
         val deleteCount:Int
         collection.deleteOne(userToDelete).also {
             deleteCount = it.deletedCount.toInt()

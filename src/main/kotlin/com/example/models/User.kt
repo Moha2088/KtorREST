@@ -4,7 +4,10 @@ import kotlinx.serialization.Serializable
 import java.security.MessageDigest
 
 @Serializable
-data class User(val id:Int,val userName: String?, var password:String?, val token:String?){
+data class User(val userName: String?,
+                var password:String?,
+                var token:String? = null){
+
     init {
         val hashValue =this.password!!.toByteArray()
         val sha256 = MessageDigest.getInstance("SHA-256")
