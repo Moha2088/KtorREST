@@ -9,34 +9,37 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 
-fun Application.configureSecurity(secret: String, issuer: String, audience: String, myRealm:String){
-    install(Authentication){
+fun Application.configureSecurity(secret: String, issuer: String, audience: String, myRealm: String) {
+    install(Authentication) {
         jwt {
             realm = myRealm
-            
-            verifier(JWT
-                 .require(Algorithm.HMAC512(secret))
-                .withAudience(audience)
-                .withIssuer(issuer)
-                .build())
-            
-            validate {
-                jwtCredential: JWTCredential -> kotlin.run {
+
+            verifier(
+                JWT
+                    .require(Algorithm.HMAC512(secret))
+                    .withAudience(audience)
+                    .withIssuer(issuer)
+                    .build()
+            )
+
+            validate { jwtCredential: JWTCredential ->
+                kotlin.run {
                     val userName = jwtCredential.payload.getClaim("userName").asString()
-                    
-                    if(userName.isNotEmpty()){
+
+                    if (userName.isNotEmpty()) {
                         JWTPrincipal(jwtCredential.payload)
-                    }
-                    
-                    else{
+                    } else {
                         null
                     }
-                }  
+                }
             }
-            
-            challenge{_, _ ->
-                call.respond(HttpStatusCode.Unauthorized,GenericResponse(isSuccess = true, data ="Token is not valid, or has been expired!"))
-            } 
+
+            challenge { _, _ ->
+                call.respond(
+                    HttpStatusCode.Unauthorized,
+                    GenericResponse(isSuccess = false, data = "Token is not valid, or has been expired!")
+                )
+            }
         }
     }
 }

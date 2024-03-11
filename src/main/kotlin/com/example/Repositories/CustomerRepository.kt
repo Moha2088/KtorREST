@@ -7,14 +7,14 @@ import com.mongodb.kotlin.client.coroutine.FindFlow
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.forEach
-import kotlinx.coroutines.flow.toList
-import org.bson.conversions.Bson
+import com.example.config
 
 class CustomerRepository {
+
+    private val connectionString = config.property("Mongo.connectionString").getString()
+
     private val client: MongoClient =
-        MongoClient.create("mongodb+srv://maxamed14:V8AV4PCGop0TFMt8@cluster0.dd89cjv.mongodb.net/?retryWrites=true&w=majority")
+        MongoClient.create(connectionString)
     private val database: MongoDatabase = client.getDatabase("UCL")
     private val collection: MongoCollection<Customer> = database.getCollection<Customer>("Customer")
 

@@ -7,7 +7,6 @@ import io.ktor.http.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ch.qos.logback.classic.Logger
 import org.slf4j.LoggerFactory
 
 class OrderRoutes

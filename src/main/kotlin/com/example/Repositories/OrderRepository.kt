@@ -7,11 +7,14 @@ import com.mongodb.client.model.Updates
 import com.mongodb.kotlin.client.coroutine.MongoClient
 import com.mongodb.kotlin.client.coroutine.MongoCollection
 import com.mongodb.kotlin.client.coroutine.MongoDatabase
+import com.example.config
 
 class OrderRepository {
 
+    private val connectionString = config.property("Mongo.connectionString").getString()
+
     private val client: MongoClient =
-        MongoClient.create("mongodb+srv://maxamed14:V8AV4PCGop0TFMt8@cluster0.dd89cjv.mongodb.net/?retryWrites=true&w=majority")
+        MongoClient.create(connectionString)
     private val database: MongoDatabase = client.getDatabase("UCL")
     private val collection: MongoCollection<Order> = database.getCollection<Order>("Order")
 

@@ -39,13 +39,15 @@ repositories {
 
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
+    implementation("io.ktor:ktor-server-cors:$ktor_version")
     implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
+    implementation("io.ktor:ktor-serialization-gson-jvm:$ktor_version")
     implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.10.1")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
+    implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.assertj:assertj-core:3.25.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
